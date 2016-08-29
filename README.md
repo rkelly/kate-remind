@@ -9,9 +9,15 @@ mkdir -p ~/.local/share/katepart5/syntax
 wget https://raw.githubusercontent.com/rkelly/kate-remind/master/remind.xml \
     -O ~/.local/share/katepart5/syntax/remind.xml
 ```
-## Screenshot
+## Screenshots
 
-![](https://github.com/rkelly/kate-remind/blob/master/screenshot.png)
+### Before
+
+![](https://github.com/rkelly/kate-remind/blob/master/before.png)
+
+### After
+
+![](https://github.com/rkelly/kate-remind/blob/master/after.png)
 
 ## Status
 
