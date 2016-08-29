@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language name="Remind"
+    version="0.1"
+    kateversion="2.4"
+    section="Scripts"
+    extensions="*.rem;*.remind"
+    casesensitive="0"
+    author="Richard Kelly (richard@kelly.ws)"
+    license="GPL">
+<highlighting> 
+    <list name="somename">
+        <item>REM</item>
+        <item>MSG</item>
+        <item>AT</item>
+        <item>DURATION</item>
+        <item>UNTIL</item>   
+    </list>
+    <contexts>
+    <context attribute="Normal Text" lineEndContext="#pop" name="Normal Text" >
+        <DetectChar attribute="Comment" context="Comment" char="#" /> <!--if DetectChar "#", set style to comment, and switch context to Comment; was context="comment"-->
+        <keyword attribute="Keyword" context="#stay" String="somename" />
+        
+        <AnyChar attribute="Operator" context="#stay" String="+-*/#|~&gt;&lt;" />
+        <Detect2Chars attribute="Operator" context="#stay" char="&gt;" char1="=" />
+        <Detect2Chars attribute="Operator" context="#stay" char="=" char1="&lt;" />
+        <RegExpr attribute="Variable" context="#stay" String="{\s*[A-Z](\w|\d)*" />
+        <RegExpr attribute="Variable" context="#stay" String="{\s*(?=\$)" />
+        <DetectChar attribute="Variable" context="#stay" char="}" />
+        <RegExpr attribute="Atom" context="#stay" String="\b[a-z](\w|\d)*" />
+        
+        <DetectChar attribute="String" context="String" char="&quot;" /> <!--if DetectChar "&quot;", style as String, switch to String context-->
+        <Int attribute="Int" context="#stay" /> <!--if Int, style as Int-->
+        <Float attribute="Float" context="#stay" /> <!--if Float, style as Float-->
+
+    </context>
+    
+    <!--child contexts-->
+    <context attribute="String" lineEndContext="#stay" name="String" >
+        <HlCStringChar attribute="Atom" context="#stay"/>
+        <DetectChar attribute="String" context="#pop" char="&quot;" /> <!--if DetectChar "&quot;", style as String, pop out of child context-->
+    </context>
+
+    <context name="Comment" attribute="Comment" lineEndContext="#pop">
+        <IncludeRules context="##Alerts_indent"/>
+    </context>
+
+    </contexts>
+
+    <itemDatas>
+    <itemData name="Normal Text" defStyleNum="dsNormal" />
+    <itemData name="Keyword" defStyleNum="dsKeyword" /> <!--not reaching here-->
+    <itemData name="String" defStyleNum="dsString" />
+    <itemData name="Function" defStyleNum="dsFunction" />
+    <!--<itemData name="Control Flow" defStyleNum="dsControlFlow" />-->
+    <itemData name="Operator" defStyleNum="dsOperator" />
+    <itemData name="Constant" defStyleNum="dsBuiltIn" />
+    <itemData name="Variable" defStyleNum="dsVariable" />
+    <itemData name="Atom" defStyleNum="dsChar" />
+    <itemData name="Int" defStyleNum="dsDecVal" />
+    <itemData name="Float" defStyleNum="dsFloat" />
+    <itemData name="Comment" defStyleNum="dsComment"/>
+    </itemDatas>
+</highlighting>
+
+<!-- Global settings. -->
+<general>
+    <comments>
+        <comment name="singleLine" start="#" />
+    </comments>
+    <keywords casesensitive="0" />
+    <emptyLines>
+        <emptyLine regexpr="(?:\s+|\s*#.*)" />
+    </emptyLines>
+</general>
+ 
+</language>
