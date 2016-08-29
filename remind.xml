@@ -14,11 +14,13 @@
         <item>MSG</item>
         <item>AT</item>
         <item>DURATION</item>
-        <item>UNTIL</item>   
+        <item>UNTIL</item>
+        <item>SET</item>
+        <item>FSET</item>
     </list>
     <contexts>
     <context attribute="Normal Text" lineEndContext="#pop" name="Normal Text" >
-        <DetectChar attribute="Comment" context="Comment" char="#" /> <!--if DetectChar "#", set style to comment, and switch context to Comment; was context="comment"-->
+        <DetectChar attribute="Comment" context="Comment" char=";" /> <!--if DetectChar ";", set style to comment, and switch context to Comment; was context="comment"-->
         <keyword attribute="Keyword" context="#stay" String="somename" />
         
         <AnyChar attribute="Operator" context="#stay" String="+-*/#|~&gt;&lt;" />
