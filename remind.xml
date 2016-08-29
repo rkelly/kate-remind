@@ -8,38 +8,54 @@
     casesensitive="0"
     author="Richard Kelly (richard@kelly.ws)"
     license="GPL">
-<highlighting> 
-    <list name="somename">
+<highlighting>
+    <!-- http://manpages.ubuntu.com/manpages/wily/en/man1/remind.1.html -->
+    <list name="command">
         <item>REM</item>
-        <item>MSG</item>
-        <item>AT</item>
-        <item>DURATION</item>
-        <item>UNTIL</item>
         <item>SET</item>
         <item>FSET</item>
     </list>
+    <list name="keyword">
+        <item>ONCE</item>
+        <item>PRIORITY</item>
+        <item>SKIP</item>
+        <item>BEFORE</item>
+        <item>AFTER</item>
+        <item>OMIT</item>
+        <item>OMITFUNC</item>
+        <item>AT</item>
+        <item>SCHED</item>
+        <item>WARN</item>
+        <item>UNTIL</item>
+        <item>THROUGH</item>
+        <item>SCANFROM</item>
+        <item>FROM</item>
+        <item>DURATION</item>
+        <item>TAG</item>
+        <item>MSG</item>
+        <item>MSF</item>
+        <item>RUN</item>
+        <item>CAL</item>
+        <item>SATISFY</item>
+        <item>SPECIAL</item>
+        <item>PS</item>
+        <item>PSFILE</item>
+    </list>
     <contexts>
     <context attribute="Normal Text" lineEndContext="#pop" name="Normal Text" >
-        <DetectChar attribute="Comment" context="Comment" char=";" /> <!--if DetectChar ";", set style to comment, and switch context to Comment; was context="comment"-->
-        <keyword attribute="Keyword" context="#stay" String="somename" />
-        
-        <AnyChar attribute="Operator" context="#stay" String="+-*/#|~&gt;&lt;" />
-        <Detect2Chars attribute="Operator" context="#stay" char="&gt;" char1="=" />
-        <Detect2Chars attribute="Operator" context="#stay" char="=" char1="&lt;" />
-        <RegExpr attribute="Variable" context="#stay" String="{\s*[A-Z](\w|\d)*" />
-        <RegExpr attribute="Variable" context="#stay" String="{\s*(?=\$)" />
-        <DetectChar attribute="Variable" context="#stay" char="}" />
-        <RegExpr attribute="Atom" context="#stay" String="\b[a-z](\w|\d)*" />
-        
+        <DetectChar attribute="Comment" context="Comment" char=";" /> <!--if DetectChar ";", set style to comment, and switch context to Comment-->
+        <DetectChar attribute="Comment" context="Comment" char="#" /> <!--if DetectChar "#", set style to comment, and switch context to Comment-->
+        <keyword attribute="Keyword" context="#stay" String="command" />
+        <keyword attribute="Function" context="#stay" String="keyword" />
+        <RegExpr attribute="Variable" context="#stay" String="[a-zA-Z]*" /> <!-- message body -->
         <DetectChar attribute="String" context="String" char="&quot;" /> <!--if DetectChar "&quot;", style as String, switch to String context-->
         <Int attribute="Int" context="#stay" /> <!--if Int, style as Int-->
         <Float attribute="Float" context="#stay" /> <!--if Float, style as Float-->
-
     </context>
     
     <!--child contexts-->
     <context attribute="String" lineEndContext="#stay" name="String" >
-        <HlCStringChar attribute="Atom" context="#stay"/>
+        <HlCStringChar attribute="Atom" context="#stay"/> <!-- if detect an escaped character, stay in context -->
         <DetectChar attribute="String" context="#pop" char="&quot;" /> <!--if DetectChar "&quot;", style as String, pop out of child context-->
     </context>
 
