@@ -1,6 +1,6 @@
 # kate-remind
 
-A KDE Advanced Text Editor (Kate) syntax highlighter for [Remind](https://www.roaringpenguin.com/products/remind) script
+A Kate (KDE Advanced Text Editor) syntax highlighting definition for [Remind](https://www.roaringpenguin.com/products/remind) scripting language
 
 ## Installation
 
@@ -15,6 +15,4 @@ wget https://raw.githubusercontent.com/rkelly/kate-remind/master/remind.xml \
 
 ## Status
 
-The file is a first attempt and is by no means complete.
-
-Contributions are welcome.
+This definition is useful, but by no means complete. Contributions are welcome.
