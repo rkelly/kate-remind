@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language name="Remind"
+    version="0.1"
+    kateversion="2.4"
+    section="Scripts"
+    extensions="*.rem;*.remind"
+    casesensitive="0"
+    author="Richard Kelly (richard@kelly.ws)"
+    license="GPL">
+<highlighting>
+    <!-- http://manpages.ubuntu.com/manpages/wily/en/man1/remind.1.html -->
+    <list name="command">
+        <item>REM</item>
+        <item>SET</item>
+        <item>FSET</item>
+    </list>
+    <list name="keyword">
+        <item>ONCE</item>
+        <item>PRIORITY</item>
+        <item>SKIP</item>
+        <item>BEFORE</item>
+        <item>AFTER</item>
+        <item>OMIT</item>
+        <item>OMITFUNC</item>
+        <item>AT</item>
+        <item>SCHED</item>
+        <item>WARN</item>
+        <item>UNTIL</item>
+        <item>THROUGH</item>
+        <item>SCANFROM</item>
+        <item>FROM</item>
+        <item>DURATION</item>
+        <item>TAG</item>
+        <item>MSG</item>
+        <item>MSF</item>
+        <item>RUN</item>
+        <item>CAL</item>
+        <item>SATISFY</item>
+        <item>SPECIAL</item>
+        <item>PS</item>
+        <item>PSFILE</item>
+    </list>
+    <list name="month">
+        <item>JAN</item><item>january</item>
+        <item>FEB</item><item>february</item>
+        <item>MAR</item><item>march</item>
+        <item>APR</item><item>april</item>
+        <item>MAY</item>
+        <item>JUN</item><item>june</item>
+        <item>JUL</item><item>july</item>
+        <item>AUG</item><item>august</item>
+        <item>SEP</item><item>september</item>
+        <item>OCT</item><item>october</item>
+        <item>NOV</item><item>november</item>
+        <item>DEC</item><item>december</item>
+    </list>
+    <list name="weekday">
+        <item>MON</item>
+        <item>TUE</item>
+        <item>WED</item>
+        <item>THU</item>
+        <item>FRI</item>
+        <item>MONday</item>
+        <item>TUEsday</item>
+        <item>WEDnesday</item>
+        <item>THUrsday</item>
+        <item>FRIday</item>
+    </list>
+    <list name="weekend">
+        <item>SAT</item>
+        <item>SUN</item>
+        <item>SATurday</item>
+        <item>SUNday</item>
+    </list>
+    <contexts>
+        <!--normal text context-->
+        <context attribute="Normal Text" lineEndContext="#pop" name="Normal Text" >
+            <!--
+            Remind ignores blank lines, and lines beginning with the '#' or ';' characters.
+            You can use the semicolon as a comment character if you wish to pass a Remind
+            script through the C pre-processor, which interprets the '#' character as the
+            start of a pre-processing directive. 
+            http://linux.die.net/man/1/remind
+            -->
+            <AnyChar String=";#" context="Comment" />
+
+            <StringDetect String="MSG" insensitive="true" attribute="Function" context="Body" />
+
+            <!--beginning of dates-->
+            <keyword String="month" attribute="Date" context="Date" />
+            <keyword String="weekday" attribute="Date" context="Date" />
+            <keyword String="weekend" attribute="Date" context="Date" /> <!-- might be nice if bold for weekend -->
+            <RegExpr String="[0-9]+-[0-9]+-[0-9]+" attribute="Date" context="Date" />
+
+            <keyword attribute="Function" context="#stay" String="command" /> <!--An attribute maps to a defined itemData.-->
+            <keyword attribute="Function" context="#stay" String="keyword" />
+            <!--<RegExpr attribute="Variable" context="#stay" String="[a-zA-Z]*" />--> <!-- message body -->
+            <DetectChar context="String" char="&quot;" /> <!--if DetectChar "&quot;", style as String, switch to String context-->
+            <RegExpr attribute="Time" String="[0-9]+:[0-9][0-9]" />
+            <Int attribute="Int" context="#stay" /> <!--if Int, style as Int-->
+            <Float attribute="Float" context="#stay" /> <!--if Float, style as Float-->
+
+
+        </context>
+        <!--child contexts-->
+        <!--string-->
+        <context attribute="String2" lineEndContext="#stay" name="String">
+            <HlCStringChar attribute="Atom" context="#stay" /> <!-- if detect an escaped character, stay in context -->
+            <DetectChar context="#pop" char="&quot;" /> <!--if DetectChar "&quot;", style as String, pop out of child context--> <!--was attribute="String" -->
+        </context>
+        <!--comment-->
+        <context name="Comment" attribute="Comment" lineEndContext="#pop">
+            <IncludeRules context="##Alerts_indent" />
+        </context>
+        <!-- body -->
+        <context name="Body" lineEndContext="#pop" attribute="Body">
+            <!--<StringDetect String="MSG" insensitive="true" attribute="Variable" />-->
+            <DetectChar context="String" char="&quot;" /> <!--isn't working-->
+            <HlCStringChar attribute="Atom" context="#stay" /> <!--isn't working-->
+            <!--<RegExpr context="#stay" String=".*" />-->
+        </context>
+        <!-- date -->
+        <context name="Date" lineEndContext="#stay">
+            <RegExpr String=" [0-9]+-[0-9]+-[0-9]+" attribute="Date" context="#stay" /> <!--a date -->
+            <RegExpr String=" [\+|\-|\*]*[0-9]+" attribute="Date" context="#stay" /> <!--a number within a date is part of the date -->
+            <DetectChar char=" " context="#pop" />
+        </context>
+
+    </contexts>
+    <itemDatas>
+        <itemData name="Normal Text" defStyleNum="dsNormal" /> <!--gray-->
+        <itemData name="Keyword" defStyleNum="dsKeyword" /> <!--gray, bold-->
+        <itemData name="Function" defStyleNum="dsFunction" /> <!--purple-->
+        <itemData name="Variable" defStyleNum="dsVariable" /> <!--blue-->
+        <itemData name="Control Flow" defStyleNum="dsControlFlow" />
+        <itemData name="Operator" defStyleNum="dsOperator" />
+        <itemData name="Constant" defStyleNum="dsBuiltIn" />
+        <itemData name="String2" defStyleNum="dsString" />
+        <itemData name="Atom" defStyleNum="dsChar" />
+        <itemData name="Int" defStyleNum="dsDecVal" /> <!--gold-->
+        <itemData name="Float" defStyleNum="dsFloat" />
+        <itemData name="Comment" defStyleNum="dsComment" italic="true" />
+        <!-- others available
+        dsExtension, dsPreprocessor, dsAttribute, dsSpecialChar, dsVerbatimString,
+        dsSpecialString, dsImport, dsDataType, dsBaseN, dsConstant, dsDocumentation,
+        dsAnnotation, dsCommentVar, dsRegionMarker, dsInformation, dsWarning, dsAlert,
+        dsOthers, dsError
+        https://api.kde.org/frameworks/ktexteditor/html/classKTextEditor.html
+        -->
+        <itemData name="Body" defStyleNum="dsNormal" bold="true" />
+        <itemData name="Time" defStyleNum="dsDecVal" />
+        <itemData name="Date" defStyleNum="dsDecVal" />
+    </itemDatas>
+</highlighting>
+
+<!-- Global settings. -->
+<general>
+    <comments>
+        <comment name="singleLine" start=";" />
+        <comment name="singleLine" start="#" />
+    </comments>
+    <keywords casesensitive="0" />
+    <emptyLines>
+        <emptyLine regexpr="(?:\s+|\s*#.*)" />
+    </emptyLines>
+</general>
+
+</language>
