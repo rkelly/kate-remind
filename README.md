@@ -28,13 +28,13 @@ This definition seeks to:
 
 ```bash
 mkdir -p ~/.local/share/katepart5/syntax
-wget https://raw.githubusercontent.com/rkelly/kate-remind/master/remind.xml \
-    -O ~/.local/share/katepart5/syntax/remind.xml
+wget https://gitlab.com/lambdaphile/kate-remind/raw/master/kate-remind.xml \
+    -O ~/.local/share/katepart5/syntax/kate-remind.xml
 ```
 
 ### Other Kate Versions/Linux Distros
 
-Other versions of Kate, or other Linux distributions may require you to save the [syntax.xml file](https://raw.githubusercontent.com/rkelly/kate-remind/master/remind.xml) instead to one of the following locations:
+Other versions of Kate, or other Linux distributions may require you to save the [syntax.xml file](https://gitlab.com/lambdaphile/kate-remind/raw/master/kate-remind.xml) instead to one of the following locations:
 
 #### Linux
 
