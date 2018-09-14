@@ -6,11 +6,11 @@ Remind is a scripting language-driven reminder program for *nix systems licensed
 
 [remind.vim](http://www.vim.org/scripts/script.php?script_id=1536) has been available since 2006 for Vim users. This is a definition file for Kate users. It makes entry of reminders via Kate more enjoyable, and increases accuracy. Before using sytax coloring, I would often forget the `MSG` keyword. With syntax coloring, mistakes like this are visually obvious.
 
-This definition seeks to:
+Key goals for this definition are to:
 
 - highlight common entry errors
-- give prominence to the content (the date, time and message body), not the keywords
-- use the user-specified color palette
+- encourage the reader to focus on the content (the date, time and message body), not the Remind keywords
+- use the color palette specified by the user
 
 ## Screenshots
 
@@ -23,6 +23,8 @@ This definition seeks to:
 ![](https://raw.githubusercontent.com/rkelly/kate-remind/master/after.png "After syntax coloring")
 
 ## Installation
+
+Installation can be as simple as dropping the `kate-remind.xml` file into your Kate `syntax` directory. If your system does not have a `syntax` directory, it may need to be created. The following commands show an example of creating this directory, and copying the file from this repository, directly to where it's needed on your system.
 
 ### katepart5/Linux
 
@@ -45,9 +47,9 @@ Other versions of Kate, or other Linux distributions may require you to save the
 
 - `%USERPROFILE%\AppData\Local\katepart5\syntax`
 
-Sometimes the `syntax` directory may not exist, and will have to be created. After installing the file, *Kate must be restarted* before it will read it.
+After installing the file, *Kate must be restarted* before it will read it.
 
-After installation, Remind syntax highlighting will automatically start when opening a `*.rem` or `*.remind` file. It can also be set manually in the bottom right corner of the Kate window. The Remind syntax is filed in the Scripts folder.
+Syntax highlighting will automatically start when opening a `*.rem` or `*.remind` file. It can also be set manually (eg. if you use a different file suffix) in the bottom right corner of the Kate window. The Remind syntax can be found in the Scripts folder.
 
 ## Status
 
